@@ -30,7 +30,7 @@ public class DriverConfig {
 
 
 
-    public void setup() throws IOException, InterruptedException {
+    public void setup() {
         String browser = getBrowser();
         switch(browser) {
             case "chrome":
@@ -38,5 +38,6 @@ public class DriverConfig {
                 driver=new ChromeDriver();
             break;
         }
+        driver.manage().window().maximize();
     }
 }

@@ -15,7 +15,7 @@ import java.util.Set;
 import static com.demo.common.constants.PropertyNames.COMM_USERNAME;
 import static com.demo.common.constants.PropertyNames.PHONE_VERIFICATION_URL;
 
-public class LoginPage extends Wrappers {
+public class LoginPage extends BasePage {
 
     private Logger logger = LoggerFactory.getLogger(LoginPage.class);
     private String url;
@@ -26,9 +26,10 @@ public class LoginPage extends Wrappers {
     private final By USER_NAME = By.xpath("//input[@name='username']");
     private final By PASSWORD = By.xpath("//input[@name='password']");
     private final By SUBMIT_BTN = By.xpath("//button[@type='submit']");
-    private final By SMS_CODE_ELE = By.xpath("//td[contains(text(), 'authentication code')]");
+
     private final By ENTER_SMS_CODE_ELE = By.xpath("//input[@name='code']");
     private final By SMS_CODE_SUBMIT_ELE = By.xpath("//*[text()='Submit']");
+    private final By CLOSE_BTN = By.xpath("//button//*[text()='Close']");
 
 
     public LoginPage(String user, String pwd, String url, WebDriver driver) {
@@ -40,38 +41,31 @@ public class LoginPage extends Wrappers {
     }
 
     public void loginStep() throws InterruptedException {
-        driver.get(url);
+        if(!this.url.isEmpty())
+            driver.get(url);
         clearAndEnterText(USER_NAME, user);
         clearAndEnterText(PASSWORD, pwd);
         clickOnElement(SUBMIT_BTN);
+        waitInSeconds(10);
     }
 
+    @Step("Get SMS Code")
     public String getSmsCode(){
-        String mainWindow = getWindowName();
-        String selectLinkOpenInNewTab = Keys.chord(Keys.CONTROL,"N");
-        getWebElement(By.xpath("//html/body")).sendKeys(selectLinkOpenInNewTab);
-        Set<String> allWindowHandles = driver.getWindowHandles();
-        Iterator<String> iterator = allWindowHandles.iterator();
-        String smsCode = null;
-        while (iterator.hasNext()) {
-            String childWindow = iterator.next();
-            if (!mainWindow.equalsIgnoreCase(childWindow)) {
-                switchToWindow(childWindow);
-                driver.get(AppProperties.getValueFor(PHONE_VERIFICATION_URL));
-                smsCode = getText(SMS_CODE_ELE);
-                driver.close();
-                switchToWindow(mainWindow);
-            }
-        }
-        String[] split = smsCode.split("is");
-        String code = split[1];
-        code = code.replaceAll("[-+.^:,]","");
-        return code.trim();
+        return getAuthenticationCode();
     }
 
     @Step("Entering SMS code")
-    public void enterSmsCode(String smsCode){
-        clearAndEnterText(ENTER_SMS_CODE_ELE, smsCode);
+    public void enterConfirmationCode(String confirmationCode){
+        clearAndEnterText(ENTER_SMS_CODE_ELE, confirmationCode);
         clickOnElement(SMS_CODE_SUBMIT_ELE);
+        waitInSeconds(10);
     }
+
+    @Step("Click On Close Button")
+    public void clickClose(){
+        logger.info("Click on Close button");
+        clickOnElement(CLOSE_BTN);
+    }
+
+
 }

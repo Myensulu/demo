@@ -15,7 +15,12 @@ abstract public class Base extends DriverConfig {
         loginPage = new LoginPage(getUser(),getPwd(), getUrl(), getDriver());
         loginPage.loginStep();
         String smsCode = loginPage.getSmsCode();
-        loginPage.enterSmsCode(smsCode);
+        loginPage.enterConfirmationCode(smsCode);
+    }
+
+    @Step("Setup Driver")
+    public void setupDriver() throws IOException, InterruptedException {
+        setup();
     }
 
 

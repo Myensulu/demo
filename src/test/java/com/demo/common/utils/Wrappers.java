@@ -163,4 +163,59 @@ public class Wrappers {
         return getWebElement(objLocator).getText();
     }
 
+    /**
+     * Execute the javascript
+     */
+    public Object executeScript(String script) {
+        JavascriptExecutor js = (JavascriptExecutor) webDriver;
+        return js.executeScript(script);
+    }
+
+    /**
+     * Halt execution of the script based on given time
+     */
+    public void waitInSeconds(int timeToWait) {
+        try{Thread.sleep(timeToWait * 1000);}catch (InterruptedException e){};
+    }
+
+
+    /**
+     * Waits till element appears on the dom or given timeout and throws Interrupted Exception if not
+     * appears
+     */
+    public String waitForElementToAppear(By locator, int timeOut) {
+        int count = 1;
+        while (count <= timeOut) {
+            if (webDriver.findElements(locator).size() > 0) {
+                break;
+            }
+            waitInSeconds(1);
+            count++;
+        }
+        if (count == timeOut + 1) {
+            return "Unable to find given element after waiting " + timeOut + "seconds";
+        }
+        waitInSeconds(2);
+        return "";
+    }
+
+    /**
+     * Waits till element not appears on the dom or given timeout and throws Interrupted Exception if
+     * not appears
+     */
+    public String waitForElementToDisappear(By locator, int timeOut) throws InterruptedException {
+        int count = 1;
+        while (count <= timeOut) {
+            if (webDriver.findElements(locator).size() == 0) {
+                break;
+            }
+            Thread.sleep(1000);
+            count++;
+        }
+        if (count == timeOut + 1) {
+            return "Still see the given element after waiting " + timeOut + "seconds";
+        }
+        return "";
+    }
+
 }
