@@ -104,6 +104,21 @@ public class Wrappers {
     }
 
     /**
+     * Will return  the list of webelement if found on dom otherwise will return empty list
+     *
+     * @param objLocator, time
+     */
+    public List<WebElement> getWebElements(By objLocator, int time) {
+        List<WebElement> listOfEle;
+        if (waitForElement(objLocator, time)) {
+            listOfEle = new ArrayList<>(webDriver.findElements(objLocator));
+        } else {
+            listOfEle = new ArrayList<>();
+        }
+        return listOfEle;
+    }
+
+    /**
      * First clean the text on the element and then enters the text
      */
     public void clearAndEnterText(Object objLocator, String text) throws NoSuchElementException {

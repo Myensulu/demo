@@ -23,6 +23,7 @@ public class FakeEmailPage extends BasePage {
     private final By COPY_EMAIL_BTN = By.cssSelector("body > div:nth-child(2) > div.row.info > div.col-xs-0.col-md-2.hidden-mobile > div > a");
     private final By LATEST_EMAIL = By.xpath("//*[@id='schranka']/tr[1]");
     private final By EMAIL_VERIFICATION_CODE = By.xpath("//*[contains(text(),'Your verification code is')]");
+    private final By ADV_ELE = By.xpath("//div[@id='dismiss-button']");
 
     private Logger logger = LoggerFactory.getLogger(FakeEmailPage.class);
     private WebDriver driver;
@@ -46,8 +47,10 @@ public class FakeEmailPage extends BasePage {
                 if (!mainWindow.equalsIgnoreCase(childWindow)) {
                     switchToWindow(childWindow);
                     driver.get(AppProperties.getValueFor(FAKE_EMAIL_URL));
+                    boolean advStatus = dismissAdv(false);
                     waitForElementToAppear(DELETE_BTN, 60);
                     clickOnElement(DELETE_BTN);
+                    dismissAdv(advStatus);
                     waitInSeconds(2);
                     clickOnElement(COPY_EMAIL_BTN);
                     fakeEmail = (String) Toolkit.getDefaultToolkit().getSystemClipboard().getContents(null).getTransferData(DataFlavor.stringFlavor);
@@ -58,5 +61,17 @@ public class FakeEmailPage extends BasePage {
             switchToWindow(mainWindow);
         }
         return fakeEmail;
+    }
+
+    private boolean dismissAdv(boolean isVisible){
+        if(!isVisible) {
+            String appearAdvPopup = waitForElementToAppear(ADV_ELE, 5);
+            if (appearAdvPopup.isEmpty()) {
+                clickOnElement(ADV_ELE);
+                waitInSeconds(2);
+                return true;
+            }
+        }
+        return false;
     }
 }
