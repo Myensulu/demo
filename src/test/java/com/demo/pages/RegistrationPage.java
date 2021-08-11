@@ -46,7 +46,7 @@ public class RegistrationPage extends BasePage {
     @Step("Open Registration page")
     public void openRegistrationPage(){
         logger.info("Open the registration page");
-        driver.get(REGISTER_URL);
+        driver.get(AppProperties.getValueFor(REGISTER_URL));
         waitForElementToAppear(LAST_NAME_TEXTBOX, 30);
     }
 
