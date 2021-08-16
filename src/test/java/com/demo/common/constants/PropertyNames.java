@@ -10,5 +10,6 @@ public class PropertyNames {
     public static final String PHONE_VERIFICATION_URL = "phone.verification.url";
     public static final String FAKE_EMAIL_URL = "fake.email.url";
     public static final String REGISTER_URL = "lisa.url.register";
+    public static final String IS_HEADLESS = "headless";
 
 }
