@@ -1,12 +1,11 @@
-package com.demo.common.utils;
-
+package com.lisa.automation.common.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import static com.demo.common.constants.FilePaths.CONFIGURATION_FILE;
+import static com.lisa.automation.common.constants.FilePaths.CONFIGURATION_FILE;
 
 public class AppProperties {
     private static Properties properties;

@@ -1,15 +1,14 @@
-package com.demo.pages;
+package com.lisa.automation.pages;
 
-import com.demo.common.utils.AppProperties;
-import com.demo.common.utils.Wrappers;
+import com.lisa.automation.common.utils.AppProperties;
+import com.lisa.automation.common.utils.Wrappers;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-
 import java.util.Iterator;
 import java.util.Set;
-
-import static com.demo.common.constants.PropertyNames.PHONE_VERIFICATION_URL;
+import static com.lisa.automation.common.constants.PropertyNames.FAKE_EMAIL_URL;
+import static com.lisa.automation.common.constants.PropertyNames.PHONE_VERIFICATION_URL2;
 
 public class BasePage extends Wrappers {
 
@@ -17,7 +16,6 @@ public class BasePage extends Wrappers {
     private final By SMS_CODE_ELE = By.xpath("//td[contains(text(), 'authentication code')]");
     private final By LATEST_EMAIL_ELE = By.xpath("//*[@id='schranka']/tr[1]");
     private final By EMAIL_VERIFICATION_ELE = By.xpath("//*[contains(text(), 'Your verification code is')]");
-
 
     private WebDriver driver;
     public BasePage(WebDriver webDriver, int... time) {
@@ -37,7 +35,6 @@ public class BasePage extends Wrappers {
             default:
                 return null;
         }
-        waitForElementVisible(elementFor, 300);
         String mainWindow = getWindowName();
         executeScript("window.open('');");
         Set<String> allWindowHandles = driver.getWindowHandles();
@@ -47,7 +44,9 @@ public class BasePage extends Wrappers {
             String childWindow = iterator.next();
             if (!mainWindow.equalsIgnoreCase(childWindow)) {
                 switchToWindow(childWindow);
-                driver.get(AppProperties.getValueFor(PHONE_VERIFICATION_URL));
+                driver.get(AppProperties.getValueFor(PHONE_VERIFICATION_URL2));
+                waitInSeconds(30);
+                driver.navigate().refresh();
                 code = getWebElements(elementFor).get(0).getText();
                 driver.close();
                 switchToWindow(mainWindow);
@@ -81,11 +80,13 @@ public class BasePage extends Wrappers {
             String childWindow = iterator.next();
             if (!mainWindow.equalsIgnoreCase(childWindow)) {
                 switchToWindow(childWindow);
-                driver.get(AppProperties.getValueFor(PHONE_VERIFICATION_URL));
+                driver.get(AppProperties.getValueFor(FAKE_EMAIL_URL));
                 waitInSeconds(10);
                 clickOnElement(LATEST_EMAIL_ELE);
-                waitInSeconds(5);
+                waitInSeconds(10);
+                driver.switchTo().frame(getWebElement(By.id("iframeMail")));
                 code = getWebElements(EMAIL_VERIFICATION_ELE).get(0).getText();
+                driver.switchTo().defaultContent();
                 driver.close();
                 switchToWindow(mainWindow);
             }
@@ -99,3 +100,4 @@ public class BasePage extends Wrappers {
         return code;
     }
 }
+
