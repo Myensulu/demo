@@ -1,17 +1,16 @@
 package com.lisa.automation.tests;
 
 import com.lisa.automation.pages.FakeEmailPage;
-import com.lisa.automation.pages.HomePage;
+import com.lisa.automation.pages.DashboardPage;
 import com.lisa.automation.pages.LoginPage;
 import com.lisa.automation.pages.RegistrationPage;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import java.io.IOException;
 
 public class RegisterTest extends Base{
-    private HomePage homePage;
+    private DashboardPage dashboardPage;
     private FakeEmailPage fakeEmailPage;
     private RegistrationPage registrationPage;
     private LoginPage loginPage;
@@ -19,7 +18,7 @@ public class RegisterTest extends Base{
     @BeforeClass
     public void setUpAndLogin() {
         setupDriver();
-        homePage = new HomePage(driver);
+        dashboardPage = new DashboardPage(driver);
         fakeEmailPage = new FakeEmailPage(driver);
         registrationPage = new RegistrationPage(driver);
     }

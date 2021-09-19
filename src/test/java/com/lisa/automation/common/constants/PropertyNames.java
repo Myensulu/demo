@@ -12,4 +12,11 @@ public class PropertyNames {
     public static final String FAKE_EMAIL_URL = "fake.email.url";
     public static final String REGISTER_URL = "lisa.url.register";
     public static final String IS_HEADLESS = "headless";
+    public static final String CHANGE_PHONE_NUMBER_URL = "change.phone.number.url";
+
+    //database properties
+    public static final String DB_HOST = "db.host";
+    public static final String DB_USERNAME = "db.username";
+    public static final String DB_PASSWORD = "db.password";
+    public static final String DB_DRIVER = "db.driver";
 }

@@ -214,4 +214,25 @@ public class Wrappers {
         }
         return "";
     }
+
+    /**
+     * Verify the element is selected or not
+     */
+    public boolean isSelected(By locator) {
+        return getWebElement(locator).isSelected();
+    }
+
+    /**
+     * Verify the element is displayed or not
+     */
+    public boolean isDisplayed(By locator) {
+        return getWebElement(locator).isDisplayed();
+    }
+
+    /**
+     * Verify the element is enabled or not
+     */
+    public boolean isEnabled(By locator) {
+        return getWebElement(locator).isEnabled();
+    }
 }

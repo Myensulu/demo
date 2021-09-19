@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class End2EndTest extends Base {
 
-    private HomePage homePage;
+    private DashboardPage dashboardPage;
     private FakeEmailPage fakeEmailPage;
     private RegistrationPage registrationPage;
     private LoginPage loginPage;
@@ -20,7 +20,7 @@ public class End2EndTest extends Base {
     @BeforeClass
     public void setUpAndLogin() {
         setupDriver();
-        homePage = new HomePage(driver);
+        dashboardPage = new DashboardPage(driver);
         fakeEmailPage = new FakeEmailPage(driver);
         registrationPage = new RegistrationPage(driver);
         forgotPasswordPage = new ForgotPasswordPage(driver);
