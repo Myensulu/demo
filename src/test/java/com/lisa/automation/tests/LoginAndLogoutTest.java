@@ -8,6 +8,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class LoginAndLogoutTest extends Base{
 
@@ -16,7 +17,8 @@ public class LoginAndLogoutTest extends Base{
     private ShiftClaimPage shiftClaimPage;
 
     @BeforeClass
-    public void setUpAndLogin() throws IOException, InterruptedException {
+    public void setUpAndLogin() throws IOException, InterruptedException, SQLException, ClassNotFoundException {
+        String customRegHash = dashboardPage.getCustomRegHash();
         loginAndVerifySMSCode();
         dashboardPage = new DashboardPage(driver);
         settingsPage = new SettingsPage(driver);
@@ -43,7 +45,7 @@ public class LoginAndLogoutTest extends Base{
         settingsPage.submitPopupSMSCode();
         settingsPage.closeButton();
         String updatedPhoneNumber = settingsPage.getCurrentPhoneNumber().trim();
-        Assert.assertEquals(actualPhoneNumber, updatedPhoneNumber);
+        Assert.assertNotEquals(actualPhoneNumber, updatedPhoneNumber);
     }
 
     @Test
@@ -59,7 +61,8 @@ public class LoginAndLogoutTest extends Base{
         dashboardPage.navigateToDashboard();
         dashboardPage.clickClaimShiftButton();
         shiftClaimPage.clickOnFirstScheduledButton();
-        //need to do validation
+        boolean shiftAppeared = shiftClaimPage.validateScheduledShiftAppeared();
+        Assert.assertTrue(shiftAppeared, "should appear as scheduled shift text");
 
         //opt out scenario
         dashboardPage.navigateToDashboard();
@@ -70,9 +73,8 @@ public class LoginAndLogoutTest extends Base{
         dashboardPage.navigateToDashboard();
         dashboardPage.clickClaimShiftButton();
         shiftClaimPage.clickOnFirstScheduledButton();
-        //need to do  validation
+        shiftClaimPage.clickOnOptInButtonOnPopup();
         shiftClaimPage.clickOnAgreeButton();
-
 
     }
 
