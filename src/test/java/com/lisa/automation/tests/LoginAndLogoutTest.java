@@ -3,6 +3,8 @@ package com.lisa.automation.tests;
 import com.lisa.automation.pages.DashboardPage;
 import com.lisa.automation.pages.SettingsPage;
 import com.lisa.automation.pages.ShiftClaimPage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -15,6 +17,8 @@ public class LoginAndLogoutTest extends Base{
     private DashboardPage dashboardPage;
     private SettingsPage settingsPage;
     private ShiftClaimPage shiftClaimPage;
+
+    private Logger logger = LoggerFactory.getLogger(LoginAndLogoutTest.class);
 
     @BeforeClass
     public void setUpAndLogin() throws IOException, InterruptedException, SQLException, ClassNotFoundException {
@@ -53,8 +57,9 @@ public class LoginAndLogoutTest extends Base{
         dashboardPage.navigateToDashboard();
         dashboardPage.clickOnSettings();
         String actualPhoneNumber = settingsPage.getCurrentPhoneNumber().trim();
+        logger.info("Actual Phone number is: " + actualPhoneNumber);
         if(actualPhoneNumber.isEmpty())
-            Assert.fail();
+            Assert.assertEquals("", "Didn't got phone number from text box");
         boolean toggleButtonStatus = settingsPage.getToggleButtonStatus();
         if(!toggleButtonStatus)
             Assert.assertEquals("Toggle Not Selected", "But selected");

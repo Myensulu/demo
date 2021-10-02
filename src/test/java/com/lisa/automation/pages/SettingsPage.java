@@ -28,6 +28,7 @@ public class SettingsPage extends BasePage {
     @Step("Get Existing phone number")
     public String getCurrentPhoneNumber(){
         logger.info("Get Current phone number");
+        waitInSeconds(5);
         waitForElementToAppear(INPUT_PHONE_ELE, 30);
         return getText(INPUT_PHONE_ELE);
     }
