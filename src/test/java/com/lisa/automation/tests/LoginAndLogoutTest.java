@@ -9,8 +9,8 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import java.io.IOException;
-import java.sql.SQLException;
+
+import static com.lisa.automation.common.constants.DataConstants.CHANGE_PHONE_NUMBER;
 
 public class LoginAndLogoutTest extends Base{
 
@@ -21,7 +21,7 @@ public class LoginAndLogoutTest extends Base{
     private Logger logger = LoggerFactory.getLogger(LoginAndLogoutTest.class);
 
     @BeforeClass
-    public void setUpAndLogin() throws IOException, InterruptedException, SQLException, ClassNotFoundException {
+    public void setUpAndLogin() throws Exception {
         String customRegHash = dashboardPage.getCustomRegHash();
         loginAndVerifySMSCode();
         dashboardPage = new DashboardPage(driver);
@@ -38,13 +38,12 @@ public class LoginAndLogoutTest extends Base{
 
     @Test
     public void changePhoneNumberTest(){
-        String newPhoneNumber = "";
         dashboardPage.clickOnSettings();
         String actualPhoneNumber = settingsPage.getCurrentPhoneNumber().trim();
-        settingsPage.enterNewNumber(newPhoneNumber);
+        settingsPage.enterNewNumber(CHANGE_PHONE_NUMBER);
         settingsPage.saveNumber();
         settingsPage.sendCodeAgain();
-        String changePhoneNumberCode = settingsPage.getChangePhoneNumberCode(newPhoneNumber);
+        String changePhoneNumberCode = settingsPage.getChangedVerificationCode();
         settingsPage.enterSMSCodeInPopup(changePhoneNumberCode);
         settingsPage.submitPopupSMSCode();
         settingsPage.closeButton();

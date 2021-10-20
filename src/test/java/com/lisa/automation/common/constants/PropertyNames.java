@@ -8,11 +8,18 @@ public class PropertyNames {
     public static final String COMM_PASSWORD="lisa.password";
     public static final String BROWSER_NAME = "browser.name";
     public static final String PHONE_VERIFICATION_URL = "phone.verification.url";
-    public static final String PHONE_VERIFICATION_URL2 = "phone.verification.url2";
     public static final String FAKE_EMAIL_URL = "fake.email.url";
     public static final String REGISTER_URL = "lisa.url.register";
     public static final String IS_HEADLESS = "headless";
     public static final String CHANGE_PHONE_NUMBER_URL = "change.phone.number.url";
+    public static final String SMS_SERVICE_TYPE = "sms.service.type";
+
+    //Google Voice Property Names
+    public static final String GOOGLE_VOICE_URL = "google.voice.url";
+    public static final String ACTUAL_GV_USERNAME = "actual.google.voice.username";
+    public static final String ACTUAL_GV_PASSWORD = "actual.google.voice.password";
+    public static final String CHANGE_GV_USERNAME = "change.google.voice.username";
+    public static final String CHANGE_GV_PASSWORD = "change.google.voice.password";
 
     //database properties
     public static final String DB_HOST = "db.host";

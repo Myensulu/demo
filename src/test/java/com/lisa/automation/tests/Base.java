@@ -15,7 +15,7 @@ abstract public class Base extends DriverConfig {
         setup();
         loginPage = new LoginPage(getUser(),getPwd(), getUrl(), getDriver());
         loginPage.loginStep();
-        String smsCode = loginPage.getSmsCode();
+        String smsCode = loginPage.getAuthenticationCode();
         loginPage.enterConfirmationCode(smsCode);
     }
 

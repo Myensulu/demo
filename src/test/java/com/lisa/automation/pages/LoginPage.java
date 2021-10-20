@@ -1,6 +1,6 @@
 package com.lisa.automation.pages;
 
-import com.lisa.automation.common.utils.AppProperties;
+import com.lisa.automation.common.utils.Utilities;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Iterator;
 import java.util.Set;
 
-import static com.lisa.automation.common.constants.PropertyNames.PHONE_VERIFICATION_URL;
+import static com.lisa.automation.common.constants.DataConstants.ACTUAL_PHONE_NUMBER;
 
 public class LoginPage extends BasePage {
     private Logger logger = LoggerFactory.getLogger(LoginPage.class);
@@ -58,7 +58,7 @@ public class LoginPage extends BasePage {
             String childWindow = iterator.next();
             if (!mainWindow.equalsIgnoreCase(childWindow)) {
                 switchToWindow(childWindow);
-                driver.get(AppProperties.getValueFor(PHONE_VERIFICATION_URL));
+                driver.get(Utilities.getPhoneNumberURL(ACTUAL_PHONE_NUMBER));
                 smsCode = getText(SMS_CODE_ELE);
                 driver.close();
                 switchToWindow(mainWindow);

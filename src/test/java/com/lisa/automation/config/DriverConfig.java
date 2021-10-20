@@ -12,12 +12,13 @@ public class DriverConfig {
     protected LoginPage loginPage;
     protected WebDriver driver;
 
-    public String getUser(){return AppProperties.getValueFor(COMM_USERNAME);}
-    public String getPwd(){return AppProperties.getValueFor(COMM_PASSWORD);}
-    public String getUrl(){ return AppProperties.getValueFor(COMM_URL);}
-    public String getBrowser(){ return AppProperties.getValueFor(BROWSER_NAME);}
-    public String getPhoneVerification(){ return AppProperties.getValueFor(PHONE_VERIFICATION_URL);}
-    public String isHeadLess(){return AppProperties.getValueFor(IS_HEADLESS);}
+    protected String getUser(){return AppProperties.getValueFor(COMM_USERNAME);}
+    protected String getPwd(){return AppProperties.getValueFor(COMM_PASSWORD);}
+    protected String getUrl(){ return AppProperties.getValueFor(COMM_URL);}
+    private String getBrowser(){ return AppProperties.getValueFor(BROWSER_NAME);}
+    public String getPhoneVerificationURL(){ return AppProperties.getValueFor(PHONE_VERIFICATION_URL);}
+    private String isHeadLess(){return AppProperties.getValueFor(IS_HEADLESS);}
+    protected String getSMSServiceType(){return AppProperties.getValueFor(SMS_SERVICE_TYPE);}
     public WebDriver getDriver(){return driver;}
 
     public void setup() {
