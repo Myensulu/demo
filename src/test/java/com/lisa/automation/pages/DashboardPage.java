@@ -12,6 +12,7 @@ public class DashboardPage extends BasePage{
     private final By TITLE_LOCATOR_ELE = By.cssSelector("#root > div > div:nth-child(1) > header > div > div > div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-true > div > img");
     private final By SETTINGS_ELE = By.xpath("//*[text()='Settings']");
     private final By CLAIM_A_SHIFT_ELE = By.xpath("//*[text()='Claim A Shift']");
+    private final By REQ_TIME_OFF_ELE = By.xpath("//*[text()='Request Time Off']");
 
     private Logger logger = LoggerFactory.getLogger(DashboardPage.class);
 
@@ -35,5 +36,11 @@ public class DashboardPage extends BasePage{
     public void clickClaimShiftButton(){
         logger.info("Click on Claim shift button");
         clickOnElement(CLAIM_A_SHIFT_ELE);
+    }
+
+    @Step("Click On Claim Shift ")
+    public void clickRequestTimeOffButton(){
+        logger.info("Click on Request Time Off button");
+        clickOnElement(REQ_TIME_OFF_ELE);
     }
 }

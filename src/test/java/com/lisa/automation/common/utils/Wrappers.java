@@ -1,10 +1,8 @@
 package com.lisa.automation.common.utils;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.*;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -234,5 +232,44 @@ public class Wrappers {
      */
     public boolean isEnabled(By locator) {
         return getWebElement(locator).isEnabled();
+    }
+
+    /**
+     * Selects the element from the drop down based on option value
+     */
+    public void selectByValueFromDropDown(Object objLocator, String value) {
+        Select selectFromDropDown = new Select(getWebElement(objLocator));
+        selectFromDropDown.selectByValue(value);
+    }
+
+    /**
+     * Selects the element from the drop down based on text
+     */
+    public void selectOptionByVisibleText(Object objLocator, String value) {
+        Select selectFromDropDown = new Select(getWebElement(objLocator));
+        selectFromDropDown.selectByVisibleText(value);
+    }
+
+    /**
+     * Selects the element from the drop down based on index value
+     */
+    public void selectByIndexFromDropDown(Object objLocator, int index) {
+        Select selectFromDropDown = new Select(getWebElement(objLocator));
+        selectFromDropDown.selectByIndex(index);
+    }
+
+    /**
+     * Will performs hover on the element.
+     */
+    public Actions moveOnToElement(By objLocator) {
+        Actions actions = new Actions(webDriver);
+        return actions.moveToElement(getWebElement(objLocator));
+    }
+
+    /**
+     * Will hover on element and performs click action
+     */
+    public void moveAndClick(By objLocator) {
+        moveOnToElement(objLocator).click().build().perform();
     }
 }
