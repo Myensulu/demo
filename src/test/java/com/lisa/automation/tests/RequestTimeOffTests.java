@@ -1,19 +1,19 @@
 package com.lisa.automation.tests;
 
 import com.lisa.automation.pages.DashboardPage;
-import com.lisa.automation.pages.RequestTimeOffPage;
-import com.lisa.automation.pages.SettingsPage;
-import com.lisa.automation.pages.ShiftClaimPage;
+import com.lisa.automation.pages.requestTimeOff.CreateNewRTOPage;
+import com.lisa.automation.pages.requestTimeOff.RequestTimeOffPage;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.List;
 import java.util.Map;
 
-public class RequestTimoffTests extends Base {
+public class RequestTimeOffTests extends Base {
 
     private DashboardPage dashboardPage;
     private RequestTimeOffPage requestTimeOffPage;
+    private CreateNewRTOPage createNewRTOPage;
 
 
     @BeforeClass
@@ -22,17 +22,18 @@ public class RequestTimoffTests extends Base {
         loginAndVerifySMSCode();
         dashboardPage = new DashboardPage(driver);
         requestTimeOffPage = new RequestTimeOffPage(driver);
+        createNewRTOPage = new CreateNewRTOPage(driver);
     }
 
     @Test
     public void testRequestTimeOff() throws Exception {
         dashboardPage.clickRequestTimeOffButton();
-        requestTimeOffPage.clickOnNewRequest();
-        requestTimeOffPage.enterFromDate("");
-        requestTimeOffPage.enterToDate("");
-        requestTimeOffPage.selectVacationType("sick");
-        requestTimeOffPage.enterComments("");
-        requestTimeOffPage.clickSubmitRequest();
+        createNewRTOPage.clickOnNewRequest();
+        createNewRTOPage.enterFromDate("");
+        createNewRTOPage.enterToDate("");
+        createNewRTOPage.selectVacationType("sick");
+        createNewRTOPage.enterComments("");
+        createNewRTOPage.clickSubmitRequest();
         Map<Integer, List<String>> requestData = requestTimeOffPage.getRequestData();
         List<String> dataList = requestData.get(0);
         System.out.println(dataList);

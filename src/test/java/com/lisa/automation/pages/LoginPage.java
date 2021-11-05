@@ -1,16 +1,10 @@
 package com.lisa.automation.pages;
 
-import com.lisa.automation.common.utils.Utilities;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Iterator;
-import java.util.Set;
-
-import static com.lisa.automation.common.constants.DataConstants.ACTUAL_PHONE_NUMBER;
 
 public class LoginPage extends BasePage {
     private Logger logger = LoggerFactory.getLogger(LoginPage.class);
@@ -22,7 +16,6 @@ public class LoginPage extends BasePage {
     private final By USER_NAME = By.xpath("//input[@name='username']");
     private final By PASSWORD = By.xpath("//input[@name='password']");
     private final By SUBMIT_BTN = By.xpath("//button[@type='submit']");
-    private final By SMS_CODE_ELE = By.xpath("//td[contains(text(), 'authentication code')]");
     private final By ENTER_SMS_CODE_ELE = By.xpath("//input[@name='code']");
     private final By SMS_CODE_SUBMIT_ELE = By.xpath("//*[text()='Submit']");
     private final By PROFILE_ICON = By.xpath("//button[@type='button']");
@@ -39,38 +32,13 @@ public class LoginPage extends BasePage {
         this.driver = driver;
     }
 
-    public void loginStep() throws InterruptedException {
+    public void loginStep() {
         if(!this.url.isEmpty())
             driver.get(url);
         clearAndEnterText(USER_NAME, user);
         clearAndEnterText(PASSWORD, pwd);
         clickOnElement(SUBMIT_BTN);
         waitInSeconds(10);
-    }
-
-    public String getSmsCode() {
-        String mainWindow = getWindowName();
-        executeScript("window.open('');");
-        Set<String> allWindowHandles = driver.getWindowHandles();
-        Iterator<String> iterator = allWindowHandles.iterator();
-        String smsCode = null;
-        while (iterator.hasNext()) {
-            String childWindow = iterator.next();
-            if (!mainWindow.equalsIgnoreCase(childWindow)) {
-                switchToWindow(childWindow);
-                driver.get(Utilities.getPhoneNumberURL(ACTUAL_PHONE_NUMBER));
-                smsCode = getText(SMS_CODE_ELE);
-                driver.close();
-                switchToWindow(mainWindow);
-            }
-        }
-        if (smsCode != null) {
-            String[] split = smsCode.split("is");
-            String code = split[1];
-            code = code.replaceAll("[-+.^:,]", "");
-            return code.trim();
-        }
-        return smsCode;
     }
 
     @Step("Entering SMS code")
@@ -87,7 +55,7 @@ public class LoginPage extends BasePage {
     }
 
     @Step("Logging out")
-    public void logOut() throws InterruptedException {
+    public void logOut() {
         clickOnElement(PROFILE_ICON);
         waitInSeconds(2);
         clickOnElement(LOGOUT_BTN);
@@ -98,6 +66,5 @@ public class LoginPage extends BasePage {
         logger.info("Click on Forgot Password link");
         clickOnElement(FORGOT_PASSWORD_LINK);
     }
-
 
 }

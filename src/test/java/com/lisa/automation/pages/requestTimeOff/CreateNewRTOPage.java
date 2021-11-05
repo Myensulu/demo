@@ -1,4 +1,4 @@
-package com.lisa.automation.pages;
+package com.lisa.automation.pages.requestTimeOff;
 
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
@@ -7,40 +7,35 @@ import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.List;
 
-public class RequestTimeOffPage extends BasePage {
+public class CreateNewRTOPage extends RequestTimeOffPage {
 
-    private final By NEW_REQ_BTN = By.cssSelector("");
     private final By FROM_DATE_ELE = By.id("start-date");
     private final By TO_DATE_ELE = By.id("end-date");
     private final By VACATION_TYPE_ELE = By.id("types");
+    private final By TOGGLE_ELE = By.xpath("//span//input[@type='checkbox']");
     private final By COMMENT_AREA_ELE = By.cssSelector("");
     private final By SUBMIT_REQ_ELE = By.cssSelector("");
-    private final By REQ_DATA_CONTAINER_ELE = By.cssSelector("div[class*='MuiContainer-root'] div[class*='MuiTableContainer-root'] > div[class*='MuiBox-root']");
 
-    private Logger logger = LoggerFactory.getLogger(RequestTimeOffPage.class);
+    private Logger logger = LoggerFactory.getLogger(CreateNewRTOPage.class);
 
-    public RequestTimeOffPage(WebDriver webDriver, int... time) {
+    public CreateNewRTOPage(WebDriver webDriver, int... time) {
         super(webDriver, time);
-    }
-
-    @Step("Click On New Request Button")
-    public void clickOnNewRequest(){
-        logger.info("Clicking on New Request Button");
-        clickOnElement(NEW_REQ_BTN);
     }
 
     @Step("Select From Date")
     public void enterFromDate(String fromDate){
         logger.info("Enter From Date: " + fromDate);
-        clearAndEnterText(FROM_DATE_ELE, fromDate);
+        clickOnElement(FROM_DATE_ELE);
+        selectDayFromCalendar(fromDate);
     }
 
     @Step("Select To Date")
     public void enterToDate(String toDate){
         logger.info("Enter To Date: " + toDate);
-        clearAndEnterText(TO_DATE_ELE, toDate);
+        clickOnElement(TO_DATE_ELE);
+        selectDayFromCalendar(toDate);
     }
 
     @Step("Select Vacation Type")
@@ -71,22 +66,4 @@ public class RequestTimeOffPage extends BasePage {
         moveAndClick(SUBMIT_REQ_ELE);
         waitInSeconds(60);
     }
-
-    public Map<Integer, List<String>> getRequestData(){
-        Map<Integer, List<String>> containerData = new HashMap<>();
-        List<WebElement> containerElements = getWebElements(REQ_DATA_CONTAINER_ELE);
-        int count = 0;
-        for(WebElement containerElement: containerElements){
-            List<String> dataList = new ArrayList<>();
-            List<WebElement> dataElements = containerElement.findElements(By.cssSelector("div[class*='MuiGrid-grid-xs'] p"));
-            for(WebElement dataElement: dataElements){
-                dataList.add(dataElement.getText());
-            }
-            containerData.put(count, dataList);
-        }
-        return containerData;
-    }
-
-
-
 }
