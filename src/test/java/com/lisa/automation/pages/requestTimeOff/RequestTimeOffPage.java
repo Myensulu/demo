@@ -59,20 +59,23 @@ public class RequestTimeOffPage extends BasePage {
         LocalDate localDate = LocalDate.parse(date, dateTimeFormatter);
         int day = localDate.getDayOfMonth();
         int month = localDate.getMonthValue();
+        int year = localDate.getYear();
         waitInSeconds(1);
-        String actualCalMonthName = getText(CAL_MONTH_NAME_ELE).trim();
+        String []calendarMonthYear = getText(CAL_MONTH_NAME_ELE).trim().split(" ");
+        String actualCalMonthName = calendarMonthYear[0];
+        String actualCalYearName = calendarMonthYear[1];
         logger.info("Actual Calendar month name is: " + actualCalMonthName);
         String expectedCalMonthName = Utilities.getMonthName(month);
-        if (!actualCalMonthName.equalsIgnoreCase(expectedCalMonthName)) {
+        if ((actualCalMonthName.equalsIgnoreCase(expectedCalMonthName)) && (actualCalYearName.equals(String.valueOf(year)))) {
+            String dayNum = CAL_DAY_ELE.replace("DAY_NUM", String.valueOf(day));
+            clickOnElement(By.xpath(dayNum));
+            waitInSeconds(2);
+        } else {
             clickOnElement(CAL_RIGHT_ARROW_ELE);
             waitInSeconds(2);
             logger.info("Actual and Expected dates are not matched moving to next month");
             selectDayFromCalendar(date);
-        } else {
-            String dayNum = CAL_DAY_ELE.replace("DAY_NUM", String.valueOf(day));
-            clickOnElement(By.xpath(dayNum));
-            waitInSeconds(2);
         }
     }
-    
+
 }

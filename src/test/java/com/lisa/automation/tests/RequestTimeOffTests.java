@@ -6,8 +6,12 @@ import com.lisa.automation.pages.requestTimeOff.RequestTimeOffPage;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
+import static com.lisa.automation.common.constants.DataConstants.PERSONAL;
+import static com.lisa.automation.common.constants.DataConstants.SICK;
 
 public class RequestTimeOffTests extends Base {
 
@@ -31,11 +35,28 @@ public class RequestTimeOffTests extends Base {
         createNewRTOPage.clickOnNewRequest();
         createNewRTOPage.enterFromDate("");
         createNewRTOPage.enterToDate("");
-        createNewRTOPage.selectVacationType("sick");
+        createNewRTOPage.selectVacationType(SICK);
         createNewRTOPage.enterComments("");
         createNewRTOPage.clickSubmitRequest();
         Map<Integer, List<String>> requestData = requestTimeOffPage.getRequestData();
         List<String> dataList = requestData.get(0);
         System.out.println(dataList);
     }
+
+    @Test
+    public void testMixedRequestTimeOff() throws Exception {
+        dashboardPage.clickRequestTimeOffButton();
+        createNewRTOPage.clickOnNewRequest();
+        createNewRTOPage.enterFromDate("");
+        createNewRTOPage.enterToDate("");
+        createNewRTOPage.clickOnToggleButton();
+        createNewRTOPage.selectMixedVacationTypes(Arrays.asList(SICK, PERSONAL));
+        createNewRTOPage.enterComments("");
+        createNewRTOPage.clickSubmitRequest();
+        Map<Integer, List<String>> requestData = requestTimeOffPage.getRequestData();
+        List<String> dataList = requestData.get(0);
+        System.out.println(dataList);
+    }
+
+
 }
