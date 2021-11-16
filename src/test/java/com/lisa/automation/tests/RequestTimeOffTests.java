@@ -3,6 +3,7 @@ package com.lisa.automation.tests;
 import com.lisa.automation.pages.DashboardPage;
 import com.lisa.automation.pages.requestTimeOff.CreateNewRTOPage;
 import com.lisa.automation.pages.requestTimeOff.RequestTimeOffPage;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -49,7 +50,7 @@ public class RequestTimeOffTests extends Base {
         createNewRTOPage.clickOnNewRequest();
         createNewRTOPage.enterFromDate("");
         createNewRTOPage.enterToDate("");
-        createNewRTOPage.clickOnToggleButton();
+        createNewRTOPage.disableToggleButton();
         createNewRTOPage.selectMixedVacationTypes(Arrays.asList(SICK, PERSONAL));
         createNewRTOPage.enterComments("");
         createNewRTOPage.clickSubmitRequest();
@@ -58,5 +59,21 @@ public class RequestTimeOffTests extends Base {
         System.out.println(dataList);
     }
 
-
+    @Test
+    public void testOneTypeAndMoreDaysRequestTimeOff() throws Exception {
+        dashboardPage.clickRequestTimeOffButton();
+        createNewRTOPage.clickOnNewRequest();
+        createNewRTOPage.enterFromDate("");
+        createNewRTOPage.enterToDate("");
+        createNewRTOPage.selectVacationType(SICK);
+        List<String> mixedVacationDropDownData = createNewRTOPage.getMixedVacationDropDownData();
+        boolean allMatch = mixedVacationDropDownData.stream().allMatch(x -> x.equals(SICK));
+        Assert.assertTrue(allMatch);
+        createNewRTOPage.enterComments("");
+        createNewRTOPage.clickSubmitRequest();
+        Map<Integer, List<String>> requestData = requestTimeOffPage.getRequestData();
+        List<String> dataList = requestData.get(0);
+        System.out.println(dataList);
+    }
+    
 }

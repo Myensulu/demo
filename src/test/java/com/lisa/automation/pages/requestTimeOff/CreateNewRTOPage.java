@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CreateNewRTOPage extends RequestTimeOffPage {
@@ -14,9 +15,11 @@ public class CreateNewRTOPage extends RequestTimeOffPage {
     private final By FROM_DATE_ELE = By.id("start-date");
     private final By TO_DATE_ELE = By.id("end-date");
     private final By VACATION_TYPE_ELE = By.id("types");
+    private final By TOGLLE_STATUS_ELE = By.cssSelector("span[class*='checked'] input");
     private final By TOGGLE_ELE = By.xpath("//span//input[@type='checkbox']");
     private final By COMMENT_AREA_ELE = By.cssSelector("");
     private final By SUBMIT_REQ_ELE = By.cssSelector("");
+
 
     private Logger logger = LoggerFactory.getLogger(CreateNewRTOPage.class);
 
@@ -54,10 +57,27 @@ public class CreateNewRTOPage extends RequestTimeOffPage {
         throw new Exception("Unable to select vacation from drop down list");
     }
 
-    @Step("Click on Toggle button")
-    public void clickOnToggleButton(){
-        logger.info("Clicking on toggle button");
-        clickOnElement(TOGGLE_ELE);
+    @Step("Status of Toggle Button enabled/disabled")
+    public boolean isToggleButtonEnabled(){
+        boolean status = getWebElements(TOGLLE_STATUS_ELE, 5).size() > 0;
+        logger.info("Toggle button status is: " + status);
+        return status;
+    }
+
+    @Step("Enable Toggle button")
+    public void enableToggleButton(){
+        logger.info("Enabled Toggle Button");
+        boolean status = isToggleButtonEnabled();
+        if(!status)
+            clickOnElement(TOGGLE_ELE);
+    }
+
+    @Step("Disable Toggle button")
+    public void disableToggleButton(){
+        logger.info("Disable Toggle Button");
+        boolean status = isToggleButtonEnabled();
+        if(status)
+            clickOnElement(TOGGLE_ELE);
     }
 
     @Step("Select Mixed Vacation Types")
@@ -80,6 +100,16 @@ public class CreateNewRTOPage extends RequestTimeOffPage {
             if(!found)
                 throw new Exception("Unable to select vacation from drop down list");
         }
+    }
+
+    @Step("Get Mixed Vacation types data")
+    public List<String> getMixedVacationDropDownData(){
+        List<String> data = new ArrayList<>();
+        List<WebElement> trElements = getWebElements(By.xpath("//table/tbody/tr/td[2]"));
+        for(WebElement trElement: trElements){
+            data.add(trElement.getText());
+        }
+        return data;
     }
 
     @Step("Enter Comments")
