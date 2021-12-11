@@ -83,9 +83,9 @@ public class CreateNewRTOPage extends RequestTimeOffPage {
     @Step("Select Mixed Vacation Types")
     public void selectMixedVacationTypes(List<String> vacationTypes) throws Exception {
         logger.info("Selecting mixed vacation types");
-        List<WebElement> trElements = getWebElements(By.tagName("tr"));
+        List<WebElement> trElements = getWebElements(By.cssSelector("div#type"));
         for(int i=0; i<vacationTypes.size(); i++){
-            trElements.get(i).findElement(By.id("type")).click();
+            trElements.get(i).click();
             waitInSeconds(2);
             List<WebElement> elementList = getWebElements(By.cssSelector("ul li"));
             boolean found = false;
